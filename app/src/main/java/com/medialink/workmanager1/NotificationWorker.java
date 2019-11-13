@@ -11,6 +11,9 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class NotificationWorker extends Worker {
     public static final String WORK_RESULT = "work_result";
 
@@ -23,7 +26,9 @@ public class NotificationWorker extends Worker {
     public Result doWork() {
         Data taskData = getInputData();
         String taskDataString = taskData.getString(MainActivity.MESSAGE_STATUS);
-        showNotification("work manager", taskDataString != null ? taskDataString : "message has been sent");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String tgl = sdf.format(new Date());
+        showNotification("work manager", taskDataString != null ? taskDataString : "message has been sent at "+tgl);
         Data outputData = new Data.Builder()
                 .putString(WORK_RESULT, "job finished")
                 .build();
